@@ -1,0 +1,11 @@
+<a href="{% url 'create-word' %}">Create a new word!</a>
+{% if words %}
+<p>{{ words.count }} word(s) found!</p>
+<ul>
+{% for word in words %}
+        <li><a href="{% url 'word-detail' word.id %}">{{ word.spelling }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>No words found!</p>
+{% endif %}
