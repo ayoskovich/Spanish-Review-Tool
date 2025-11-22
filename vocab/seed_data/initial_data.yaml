@@ -1,0 +1,35 @@
+words:
+  verb:
+    - text: Comer
+      def: to eat
+    - text: Tomar
+      def: to drink
+    - text: Nadar
+      def: to swim
+    - text: Querer
+      def: to want
+  reflexive_verb:
+    - text: Despertarse
+      def: to wake up
+    - text: Acorstarse
+      def: to go to bed
+  noun:
+    - text: Comida
+      def: food
+    - text: Piscina
+      def: pool
+    - text: Arbol
+      def: tree
+    - text: Casa
+      def: house
+
+examples:
+  - text: Hay comida en casa
+    words:
+      - Comida
+      - Casa
+  - text: Yo quiero nadar en la piscina mas
+    words:
+      - Querer
+      - Nadar
+      - Piscina

@@ -1,9 +1,22 @@
-<a href="{% url 'all-words' %}">Home</a>
-<form method="post">    
+{% extends 'base.html' %}
+{% block title %}Create / Edit Word{% endblock %}
+{% block content %}
+<form method="post">
     {% csrf_token %}
-    {{ form }}
-    <button type="submit">Save</button>
+    <div class="form-container">
+        {{ form }}
+    </div>
+    {% if form.instance.id and form.instance.examples.count %}
+    <p>Examples:</p>
+    <ul>
+        {% for example in form.instance.examples.all %}
+        <li>{{ example.text }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    {% if form.instance.id %}
+    <a href="{% url 'delete-word' pk=form.instance.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
 </form>
-{% if form.instance.id %}
-<a href="{% url 'delete-word' pk=form.instance.id %}">Delete</a>
-{% endif %}
+{% endblock %}

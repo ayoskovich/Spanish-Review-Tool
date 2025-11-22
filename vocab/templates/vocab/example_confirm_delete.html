@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Delete word{% endblock %}
+{% block title %}Delete example{% endblock %}
 {% block content %}
 <form method="post">{% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}"?</p>
     {{ form }}
     <button type="submit" class="btn btn-danger">Yes, delete</button>
-    <button type="button" class="btn btn-secondary">No, cancel</button>
+    <a class="btn btn-secondary" href="{% url 'examples' %}">No, cancel</a>
 </form>
 {% endblock %}

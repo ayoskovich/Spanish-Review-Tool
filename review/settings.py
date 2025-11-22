@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#a)@h46(ia(%3@8(!v((q_q=lt*tn3^&%ydk9g=f0yon0zaqo&"
+SECRET_KEY = os.getenv("DJANGO_SPANISH_REVIEW_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,6 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 INSTALLED_APPS = [
     "vocab.apps.VocabConfig",
@@ -55,7 +57,6 @@ ROOT_URLCONF = "review.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
