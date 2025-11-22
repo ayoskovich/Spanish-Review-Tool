@@ -1,7 +1,12 @@
 # review-spanish
 
-A django app to help me review spanish words.
+A django app to help me review spanish words, it's deployed on heroku [here](https://spanish-reviewer-app-1edc2efa484f.herokuapp.com/).
 
+Users can create new words:
+![Pic of homepage](images/word_listing.png)
+
+And then create example phrases that are linked to those words!
+![Pic of example](images/example_management.png)
 
 ## Quickstart
 
