@@ -22,3 +22,8 @@ This app uses the users session in order to connect items that are created, and 
 ```
 Application > Storage > Cookies > this site > "sessionid" > Delete
 ```
+
+To see heroku logs:
+```
+heroku logs --app <app name>
+```

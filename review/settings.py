@@ -20,17 +20,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SPANISH_REVIEW_SECRET")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+IS_HEROKU_APP = "DYNO" in os.environ and "CI" not in os.environ
 
-ALLOWED_HOSTS = []
+if IS_HEROKU_APP:
+    ALLOWED_HOSTS = ["*"]
+    DEBUG = False
+else:
+    ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
+    DEBUG = True
 
 
 # Application definition
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 INSTALLED_APPS = [
     "vocab.apps.VocabConfig",
@@ -51,6 +56,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_TRUSTED_ORIGINS = ["https://spanish-reviewer-app-1edc2efa484f.herokuapp.com"]
 
 ROOT_URLCONF = "review.urls"
 
