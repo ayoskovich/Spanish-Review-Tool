@@ -1,0 +1,88 @@
+/* ============================================================
+   Repaso — Dark Theme (minimal: text + cards)
+   Import in main.jsx after bootstrap:
+     import 'bootstrap/dist/css/bootstrap.min.css'
+     import './theme.css'
+   ============================================================ */
+
+:root {
+  --bg-base:        #0f0f11;
+  --bg-surface:     #18181c;
+  --bg-elevated:    #222228;
+  --border:         rgba(255, 255, 255, 0.08);
+  --text-primary:   #f0ede8;
+  --text-secondary: #9b9891;
+  --text-muted:     #5e5c58;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Text */
+h1, h2, h3, h4, h5, h6 { color: var(--text-primary); }
+p, li, span             { color: var(--text-secondary); }
+.text-muted             { color: var(--text-muted) !important; }
+
+/* Cards */
+.card {
+  background-color: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+}
+.card-header {
+  background-color: var(--bg-elevated);
+  border-bottom: 0.5px solid var(--border);
+  color: var(--text-primary);
+}
+.card-footer {
+  background-color: var(--bg-elevated);
+  border-top: 0.5px solid var(--border);
+}
+.card-title    { color: var(--text-primary); }
+.card-subtitle { color: var(--text-secondary); }
+.card-text     { color: var(--text-secondary); }
+
+/* Navbar */
+/* Navbar */
+.navbar {
+  background-color: var(--bg-surface) !important;
+  border-bottom: 0.5px solid var(--border);
+  padding: 0 1.5rem;
+  height: 56px;
+}
+.navbar-brand {
+  color: var(--text-primary) !important;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.navbar-brand:hover { color: var(--text-primary) !important; }
+
+.nav-link {
+  color: var(--text-secondary) !important;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px !important;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-link:hover {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-elevated);
+}
+.nav-link.active {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-elevated);
+}
+
+main {
+  padding: 1rem;
+}
+.container {
+  padding-left: 0px;
+  margin-left: 0px;
+}

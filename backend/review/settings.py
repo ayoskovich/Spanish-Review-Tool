@@ -69,7 +69,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://spanish-reviewer-app-1edc2efa484f.herokuapp.com"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://spanish-reviewer-app-1edc2efa484f.herokuapp.com",
+    "http://localhost:5173"
+]
 
 ROOT_URLCONF = "review.urls"
 

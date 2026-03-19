@@ -9,4 +9,5 @@ router.register(r"examples", api.ExampleViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),
+    path('api/quiz/', api.generate_quiz)
 ]

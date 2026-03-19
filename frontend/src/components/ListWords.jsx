@@ -20,21 +20,24 @@ export default function WordList() {
 
   return (
     <div>
-      <ul>
+      <h1 className='pb-3'>All Words</h1>
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         {words.map(word => (
           <Card 
             style={{ width: '18rem' }} 
             border= { borderColors[word.word_type]}
-            className='my-4'
+            className='m-1'
           >
             <Card.Body>
               <Card.Title>{word.spelling}</Card.Title>
-              <Card.Subtitle classname="mb-2 text-muted">{word.word_type}</Card.Subtitle>
-              <Card.Text>{word.definition}</Card.Text>
+              <div className='d-flex justify-content-between align-items-center'>
+              <Card.Text className="mb-0">{word.definition}</Card.Text>
+              <Card.Text className="mb-0 text-muted">{word.word_type}</Card.Text>
+              </div>
             </Card.Body>
           </Card>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }
