@@ -6,13 +6,12 @@ import Navbar from 'react-bootstrap/Navbar';
 export default function NavBar() {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
-        <Container>
-          <Nav className="me-auto">
-            <Nav.Link href="/">Words</Nav.Link>
-            <Nav.Link href="/review">Review</Nav.Link>
-            <Nav.Link href="/progress">Progress</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-  )
+      <Container>
+        <Nav className="me-auto">
+          <Nav.Link href="/">Words</Nav.Link>
+          <Nav.Link href="/review">Review</Nav.Link>
+        </Nav>
+      </Container>
+    </Navbar>
+  );
 }
