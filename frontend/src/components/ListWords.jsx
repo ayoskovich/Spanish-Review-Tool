@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-import { getAllWords, getAllWordTypes, getCookie } from '../services/api';
+import Modal from 'react-bootstrap/Modal';
+import {
+  getAllWords,
+  getAllWordTypes,
+  getCookie,
+  createSampleWords,
+} from '../services/api';
 import WordCard from '../components/Word';
 import WordForm from '../components/WordForm';
 
@@ -38,6 +44,20 @@ export default function WordList() {
       body: JSON.stringify(updates),
     });
     await fetchAllWords();
+    setAddingWord(false);
+  };
+  const onCreateSamples = async () => {
+    await createSampleWords();
+    await fetchAllWords();
+  };
+  const onDelete = async (wordId) => {
+    const response = await fetch(`/api/words/${wordId}/`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    await fetchAllWords();
   };
 
   useEffect(() => {
@@ -47,12 +67,27 @@ export default function WordList() {
 
   return (
     <div>
-      <h1 className="pb-3">Words</h1>
-      <div>See below for all your vocab words.</div>
-      <Button variant="primary" onClick={() => setAddingWord(!addingWord)}>
+      <h1>Words</h1>
+      <p className="text-secondary mb-3">See below for all your vocab words.</p>
+      <Button variant="primary" onClick={() => setAddingWord(true)}>
         Add a new word
       </Button>
-      {addingWord && <WordForm type_options={wordTypes} on_save={onCreate} />}
+      <Button variant="success" onClick={onCreateSamples} className="ms-2">
+        Create sample words
+      </Button>
+      <Modal
+        show={addingWord}
+        onHide={() => setAddingWord(false)}
+        backdrop="true"
+        keyboard={true}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add a New Word</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <WordForm type_options={wordTypes} on_save={onCreate} />
+        </Modal.Body>
+      </Modal>
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 pt-3">
         {words.map((word) => (
           <WordCard
@@ -60,6 +95,7 @@ export default function WordList() {
             word={word}
             type_options={wordTypes}
             on_save={onEdit}
+            on_delete={onDelete}
           />
         ))}
       </div>

@@ -4,6 +4,14 @@ export function getAllWordTypes() {
 export function getAllWords() {
   return fetch('/api/words/');
 }
+export function createSampleWords() {
+  return fetch('/api/sample-words/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
 export const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);

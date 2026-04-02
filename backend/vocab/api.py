@@ -2,10 +2,20 @@ import random
 from rest_framework import serializers, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
 from .models import Word, Example, WordType
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+def get_session_key(request):
+    """ Gets the session key, creating it if 
+    none exists. 
+    """
+    session_key = request.session.session_key
+    if session_key is None:
+        request.session.create()
+        request.session.save()
+    session_key = request.session.session_key
+    return session_key
 
 class WordTypeChoicesView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -39,11 +49,7 @@ class WordViewSet(viewsets.ModelViewSet):
         Words are filtered down to just the user's session,
         so if a session doesn't exists we create one
         """
-        session_key = self.request.session.session_key
-        if session_key is None:
-            self.request.session.create()
-            self.request.session.save()
-        session_key = self.request.session.session_key
+        session_key = get_session_key(self.request)
         return (
                 Word.objects.prefetch_related('examples')
                 .filter(session_key=session_key)
@@ -53,8 +59,19 @@ class WordViewSet(viewsets.ModelViewSet):
         serializer.save(session_key=self.request.session.session_key)
 
 class ExampleViewSet(viewsets.ModelViewSet):
-    queryset = Example.objects.all()
+    permission_classes = [permissions.AllowAny]
     serializer_class = ExampleSerializer
+
+    def get_queryset(self):
+        """
+        Examples are filtered down to just the user's session,
+        so if a session doesn't exists we create one
+        """
+        session_key = get_session_key(self.request)
+        return Example.objects.filter(session_key=session_key)
+
+    def perform_create(self, serializer):
+        serializer.save(session_key=self.request.session.session_key)
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
@@ -73,8 +90,8 @@ def generate_quiz(request):
     words = users_words.filter(id__in=word_ids)
     questions = []
     for word in words:
-        wrong = users_words.exclude(id=word.id).order_by('?')[:3]
-        choices = [w.definition for w in wrong] + [word.definition]
+        wrong_words = users_words.exclude(spelling=word.spelling).values('definition').distinct()[:3]
+        choices = [word['definition'] for word in wrong_words] + [word.definition]
         random.shuffle(choices)
 
         questions.append({
@@ -94,17 +111,55 @@ def grade_quiz(request):
     """
     original_questions = request.data.get('questions')
     answers = request.data.get('answers')
-    if not answers:
-        print('v bad...')
-        return Response({'very bad': 42})
 
     resp = []
     for question in original_questions:
         right_answer = question['correct_answer']
         selected_answer = answers.get(question['spelling'])
         resp.append({
-            'word': question['spelling'], 
-            'right': right_answer == selected_answer}
+            'word': question['spelling'],
+            'right': right_answer == selected_answer,
+            'correct_answer': right_answer}
         )
-    print(f'Returning {resp}')
     return Response({'grades': resp})
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def create_sample_words(request):
+    """
+    Creates 3 sample Spanish words for the user's session, meant
+    to give users a quick way to seed the database with some values
+    """
+    session_key = request.session.session_key
+    if session_key is None:
+        request.session.create()
+        request.session.save()
+    session_key = request.session.session_key
+
+    sample_words = [
+        {
+            'spelling': 'hablar',
+            'definition': 'to speak',
+            'word_type': 'verb',
+            'session_key': session_key
+        },
+        {
+            'spelling': 'gato',
+            'definition': 'cat',
+            'word_type': 'noun',
+            'session_key': session_key
+        },
+        {
+            'spelling': 'hermoso',
+            'definition': 'beautiful',
+            'word_type': 'adjective',
+            'session_key': session_key
+        }
+    ]
+
+    created_words = []
+    for word_data in sample_words:
+        word = Word.objects.create(**word_data)
+        created_words.append(WordSerializer(word).data)
+
+    return Response({'words': created_words})

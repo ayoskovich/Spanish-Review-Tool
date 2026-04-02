@@ -16,7 +16,7 @@ class Word(models.Model):
     An actual word you would use in a sentence
     """
 
-    spelling = models.CharField(max_length=255)
+    spelling = models.CharField(max_length=255, unique=True)
     definition = models.CharField(max_length=255, blank=True, null=True)
     example = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-export default function WordForm({ word, type_options, on_save }) {
+export default function WordForm({ word, type_options, on_save, on_delete }) {
   const [newSpelled, setSpelled] = useState(word?.spelling);
   const [newDefinition, setDefinition] = useState(word?.definition);
   const [newType, setNewType] = useState(
@@ -55,6 +55,15 @@ export default function WordForm({ word, type_options, on_save }) {
       <Button variant="outline-info" onClick={submitForm} className="my-3">
         Save
       </Button>
+      {word && (
+        <Button
+          variant="outline-danger"
+          onClick={on_delete}
+          className="my-3 ms-2"
+        >
+          Delete
+        </Button>
+      )}
     </Form>
   );
 }
