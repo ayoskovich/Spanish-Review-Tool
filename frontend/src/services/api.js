@@ -1,11 +1,11 @@
 export function getAllWordTypes() {
-  return fetch('/api/word-type-choices/');
+  return fetch(`${import.meta.env.VITE_API_URL}/api/word-type-choices/`);
 }
 export function getAllWords() {
-  return fetch('/api/words/');
+  return fetch(`${import.meta.env.VITE_API_URL}/api/words/`);
 }
 export function createSampleWords() {
-  return fetch('/api/sample-words/', {
+  return fetch(`${import.meta.env.VITE_API_URL}/api/sample-words/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
