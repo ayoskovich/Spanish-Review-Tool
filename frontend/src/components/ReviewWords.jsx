@@ -10,6 +10,7 @@ import {
 } from '../services/api';
 
 export default function ReviewWords() {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
   const [questions, setQuestions] = useState([]);
   const [allWords, setAllWords] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
@@ -39,7 +40,7 @@ export default function ReviewWords() {
   };
 
   const fetchQuiz = async () => {
-    const response = await fetch('/api/quiz/', {
+    const response = await fetch(`${API_URL}/api/quiz/`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -53,7 +54,7 @@ export default function ReviewWords() {
   };
 
   const gradeQuiz = async (answers) => {
-    const response = await fetch('/api/grade-quiz/', {
+    const response = await fetch(`${API_URL}/api/grade-quiz/`, {
       method: 'POST',
       credentials: 'include',
       headers: {
