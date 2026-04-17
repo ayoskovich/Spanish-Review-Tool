@@ -30,6 +30,8 @@ IS_RAILWAY_APP = "RAILWAY_ENVIRONMENT" in os.environ
 if IS_RAILWAY_APP:
     ALLOWED_HOSTS = ["*"]
     DEBUG = False
+    SESSION_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 else:
     ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost"]
     DEBUG = True
