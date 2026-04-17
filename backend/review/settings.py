@@ -106,7 +106,11 @@ WSGI_APPLICATION = "review.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+USE_POSTGRES = False
 if IS_RAILWAY_APP:
+    USE_POSTGRES = True
+
+if USE_POSTGRES:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
