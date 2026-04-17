@@ -41,6 +41,7 @@ export default function ReviewWords() {
   const fetchQuiz = async () => {
     const response = await fetch('/api/quiz/', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': getCookie('csrftoken'),
@@ -54,6 +55,7 @@ export default function ReviewWords() {
   const gradeQuiz = async (answers) => {
     const response = await fetch('/api/grade-quiz/', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': getCookie('csrftoken'),
