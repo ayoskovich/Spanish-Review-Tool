@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import {
+  getAllWords,
+  getAllWordTypes,
+  createSampleWords,
+  updateWord,
+  createWord,
+  deleteWord,
+} from '../services/api';
 
 export default function ReviewWords() {
   const [questions, setQuestions] = useState([]);
@@ -17,10 +24,12 @@ export default function ReviewWords() {
     return cookie ? cookie.split('=')[1] : null;
   };
 
+  async function fetchWords() {
+    const words = await getAllWords();
+    setAllWords(words)
+  }
   useEffect(() => {
-    fetch('/api/words/')
-      .then((r) => r.json())
-      .then((data) => setAllWords(data));
+    fetchWords()
   }, []);
 
   const toggleWord = (id) => {
