@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DJANGO_SPANISH_REVIEW_SECRET: 'test-secret-key-for-ci-do-not-use-in-production'
 
     steps:
     - uses: actions/checkout@v3
