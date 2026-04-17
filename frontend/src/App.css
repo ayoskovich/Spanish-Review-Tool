@@ -1,0 +1,296 @@
+/* ============================================================
+   Repaso — Light Theme
+   Import in main.jsx after bootstrap:
+     import 'bootstrap/dist/css/bootstrap.min.css'
+     import './App.css'
+   ============================================================ */
+
+:root {
+  --bg-base: #ffffff;
+  --bg-surface: #f8f9fa;
+  --bg-elevated: #e9ecef;
+  --border: rgba(0, 0, 0, 0.1);
+  --text-primary: #1a1a1a;
+  --text-secondary: #495057;
+  --text-muted: #868e96;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Text */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+}
+p,
+li,
+span {
+  color: var(--text-secondary);
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Cards */
+.card {
+  background-color: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+}
+.card-header {
+  background-color: var(--bg-elevated);
+  border-bottom: 0.5px solid var(--border);
+  color: var(--text-primary);
+}
+.card-footer {
+  background-color: var(--bg-elevated);
+  border-top: 0.5px solid var(--border);
+}
+.card-title {
+  color: var(--text-primary);
+}
+.card-subtitle {
+  color: var(--text-secondary);
+}
+.card-text {
+  color: var(--text-secondary);
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--bg-surface) !important;
+  border-bottom: 0.5px solid var(--border);
+  height: 56px;
+}
+.navbar-brand {
+  color: var(--text-primary) !important;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.navbar-brand:hover {
+  color: var(--text-primary) !important;
+}
+
+.nav-link {
+  color: var(--text-secondary) !important;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px !important;
+  border-radius: 8px;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+.nav-link:hover {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-elevated);
+}
+.nav-link.active {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-elevated);
+}
+
+/* Main Layout */
+main {
+  padding: 2rem;
+}
+
+.container {
+  max-width: 100%;
+  padding: 0;
+}
+
+/* Headings */
+h1 {
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+h5 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+/* Forms and Inputs */
+.form-control,
+.form-select {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Buttons */
+.btn {
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1.5px solid transparent;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+.btn-outline-secondary {
+  color: var(--text-secondary);
+  border-color: var(--border);
+  background-color: var(--bg-surface);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--bg-elevated);
+  border-color: #495057;
+  color: var(--text-primary);
+}
+
+.btn-outline-info {
+  color: #0dcaf0;
+  border: 1.5px solid #0dcaf0;
+  background-color: transparent;
+}
+
+.btn-outline-info:hover {
+  background-color: #0dcaf0;
+  color: white;
+  border-color: #0dcaf0;
+}
+
+/* Badges */
+.badge {
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Lists and Quiz */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+li:before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--text-secondary);
+}
+
+/* Quiz Styling */
+.quiz-question {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.quiz-question-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quiz-options {
+  margin-top: 1rem;
+  padding-left: 0;
+}
+
+.quiz-option {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.quiz-option:hover {
+  background-color: var(--bg-elevated);
+  border-color: #0d6efd;
+}
+
+.quiz-option input[type='radio'] {
+  margin-right: 0.75rem;
+}
+
+.quiz-option label {
+  margin: 0;
+  flex: 1;
+  cursor: pointer;
+}
+
+.quiz-option-correct {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.quiz-option-wrong {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+}
+
+.quiz-option:disabled,
+.quiz-option-correct input[type='radio']:disabled,
+.quiz-option-wrong input[type='radio']:disabled {
+  cursor: not-allowed;
+}
+
+/* Radio buttons and checkboxes */
+input[type='radio'],
+input[type='checkbox'] {
+  margin-right: 0.5rem;
+  accent-color: #0d6efd;
+}
+
+label {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}

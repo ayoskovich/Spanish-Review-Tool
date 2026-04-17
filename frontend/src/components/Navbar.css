@@ -1,0 +1,8 @@
+.navbar-centered {
+  padding: 0 2rem !important;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+}
