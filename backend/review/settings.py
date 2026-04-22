@@ -88,6 +88,9 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = [*default_headers, 'x-session-key']
+
 ROOT_URLCONF = "review.urls"
 
 TEMPLATES = [

@@ -1,21 +1,15 @@
 import random
+from django.contrib.sessions.backends.db import SessionStore
 from rest_framework import serializers, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Word, Example, WordType
 from rest_framework.views import APIView
-from rest_framework.response import Response
+
 
 def get_session_key(request):
-    """ Gets the session key, creating it if 
-    none exists. 
-    """
-    session_key = request.session.session_key
-    if session_key is None:
-        request.session.create()
-        request.session.save()
-    session_key = request.session.session_key
-    return session_key
+    return request.headers.get('X-Session-Key')
+
 
 class WordTypeChoicesView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -34,7 +28,7 @@ class ExampleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class WordSerializer(serializers.ModelSerializer):
-    examples = ExampleSerializer(many=True, read_only=True)  # nested examples
+    examples = ExampleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Word
@@ -45,15 +39,11 @@ class WordViewSet(viewsets.ModelViewSet):
     serializer_class = WordSerializer
 
     def get_queryset(self):
-        """
-        Words are filtered down to just the user's session,
-        so if a session doesn't exists we create one
-        """
         session_key = get_session_key(self.request)
         return (
-                Word.objects.prefetch_related('examples')
-                .filter(session_key=session_key)
-            )
+            Word.objects.prefetch_related('examples')
+            .filter(session_key=session_key)
+        )
 
     def perform_create(self, serializer):
         session_key = get_session_key(self.request)
@@ -64,15 +54,20 @@ class ExampleViewSet(viewsets.ModelViewSet):
     serializer_class = ExampleSerializer
 
     def get_queryset(self):
-        """
-        Examples are filtered down to just the user's session,
-        so if a session doesn't exists we create one
-        """
         session_key = get_session_key(self.request)
         return Example.objects.filter(session_key=session_key)
 
     def perform_create(self, serializer):
-        serializer.save(session_key=self.request.session.session_key)
+        session_key = get_session_key(self.request)
+        serializer.save(session_key=session_key)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_session(request):
+    store = SessionStore()
+    store.create()
+    return Response({'session_key': store.session_key})
+
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
@@ -82,7 +77,8 @@ def generate_quiz(request):
     and randomly assigning 3 wrong and 1 right answer
     to each.
     """
-    users_words = Word.objects.filter(session_key=request.session.session_key)
+    session_key = get_session_key(request)
+    users_words = Word.objects.filter(session_key=session_key)
     word_ids = request.data.get('word_ids', [])
     if not word_ids:
         all_ids = list(users_words.values_list('id', flat=True))
@@ -131,11 +127,7 @@ def create_sample_words(request):
     Creates 3 sample Spanish words for the user's session, meant
     to give users a quick way to seed the database with some values
     """
-    session_key = request.session.session_key
-    if session_key is None:
-        request.session.create()
-        request.session.save()
-    session_key = request.session.session_key
+    session_key = get_session_key(request)
 
     sample_words = [
         {

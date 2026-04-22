@@ -10,6 +10,7 @@ import {
   updateWord,
   createWord,
   deleteWord,
+  resetSession,
 } from '../services/api';
 import WordCard from '../components/Word';
 import WordForm from '../components/WordForm';
@@ -70,6 +71,12 @@ export default function WordList() {
       setError(message);
       console.error('Error creating word:', err);
     }
+  };
+
+  const onRestart = async () => {
+    await resetSession();
+    setWords([]);
+    await fetchAllWords();
   };
 
   const onCreateSamples = async () => {
@@ -140,6 +147,9 @@ export default function WordList() {
           </Button>
           <Button variant="success" onClick={onCreateSamples} className="ms-2">
             Create sample words
+          </Button>
+          <Button variant="outline-danger" onClick={onRestart} className="ms-2">
+            Start fresh
           </Button>
           <Modal
             show={addingWord}

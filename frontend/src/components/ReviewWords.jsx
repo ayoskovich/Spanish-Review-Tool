@@ -2,28 +2,17 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import {
   getAllWords,
-  getAllWordTypes,
-  createSampleWords,
-  updateWord,
-  createWord,
-  deleteWord,
+  generateQuiz,
+  gradeQuiz as gradeQuizApi,
 } from '../services/api';
 
 export default function ReviewWords() {
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
   const [questions, setQuestions] = useState([]);
   const [allWords, setAllWords] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const getCookie = (name) => {
-    const cookie = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith(name + '='));
-    return cookie ? cookie.split('=')[1] : null;
-  };
 
   async function fetchWords() {
     const words = await getAllWords();
@@ -40,31 +29,13 @@ export default function ReviewWords() {
   };
 
   const fetchQuiz = async () => {
-    const response = await fetch(`${API_URL}/api/quiz/`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCookie('csrftoken'),
-      },
-      body: JSON.stringify({ word_ids: selectedIds }),
-    });
-    const data = await response.json();
+    const data = await generateQuiz(selectedIds);
     return data.questions;
   };
 
   const gradeQuiz = async (answers) => {
-    const response = await fetch(`${API_URL}/api/grade-quiz/`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCookie('csrftoken'),
-      },
-      body: JSON.stringify({ questions: questions, answers: answers }),
-    });
-    const data = await response.json();
-    await setResult(data.grades);
+    const data = await gradeQuizApi(questions, answers);
+    setResult(data.grades);
   };
 
   const handleAnswer = (spelling, choice) => {
